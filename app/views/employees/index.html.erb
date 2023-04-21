@@ -1,0 +1,104 @@
+<div id="flex">
+  <p style="color: green"><%= notice %></p>
+  <%= render 'layouts/navbar' %>
+
+  <div id="right">
+    <h1>Employees</h1>
+    <div id="employees">
+      <% @employees.each do |employee| %>
+        <div class="employee-container">
+          <div class="employee-name">
+            <%= employee.name %>
+          </div>
+          <div class="employee-job">
+            <span class="material-icons-outlined">work</span>
+            Jobs: <%= employee.appointments.count %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%= link_to "New employee", new_employee_path %>
+
+    <div id="employee_roles">
+      <h1>Employee Roles</h1>
+      <% @employees.each do |employee| %>
+        <div class="employee-role-row">
+          <div class="employee-role-name"><%= employee.name %></div>
+          <div class="employee-role-roles">
+            <% employee.roles.each do |role| %>
+              <%= role.name %>
+              <% unless role == employee.roles.last %>, <% end %>
+            <% end %>
+          </div>
+          <div class="employee-role-actions">
+            <%= link_to "Show", employee %> |
+            <%= link_to "Edit", edit_employee_path(employee) %> |
+            <%= link_to "Add Roles", employee %>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to "New employee", new_employee_path %>
+    </div>
+
+  </div>
+</div>
+
+<style>
+    #employee_roles {
+        width: 100%;
+    }
+
+    .employee-role-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid black;
+        padding: 15px 0;
+    }
+
+    .employee-role-name {
+        text-align: left;
+    }
+
+    .employee-role-roles {
+        text-align: center;
+    }
+
+    .employee-role-actions {
+        text-align: right;
+    }
+
+
+    #employees {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .employee-container {
+        padding-bottom: 30px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        width: 300px;
+    }
+
+    .employee-name {
+        background-color: black;
+        font-weight: bolder;
+        padding: 50px 70px;
+
+        color: white;
+        position: relative;
+    }
+
+    .employee-job {
+        background-color: #53FFA2;
+        padding: 30px;
+        color: black;
+        font-weight: bold;
+    }
+
+    .material-icons-outlined {
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+</style>

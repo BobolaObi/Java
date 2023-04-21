@@ -1,0 +1,212 @@
+<style>
+    .base {
+        display: flex;
+        width: 100%;
+        height: 25vh;
+        border: 1px solid black;
+        margin-bottom: 20px;
+    }
+
+    .left-container {
+        background-color: white;
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .right-container {
+        background-color: black;
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 10px;
+        color: white;
+    }
+
+    .username-row {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin-bottom: 30px;
+    }
+
+    .username-row span:first-child {
+        font-weight: bold;
+    }
+
+    .special-needs {
+        text-align: left;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .orderables {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .orderable-btn {
+        background-color: black;
+        color: white;
+        border: 1px solid white;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .select {
+        background-color: yellow;
+        text-decoration: none;
+    }
+
+    .info {
+        padding: 5px;
+        border: 1px solid white;
+    }
+</style>
+
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+    // Open the tab with the "active" class when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector(".tablinks.active").click();
+    });
+</script>
+
+
+<div id="flex">
+  <%= render 'layouts/navbar' %>
+
+  <div id="right">
+    <!-- Tab links -->
+    <div class="tab">
+      <button class="tablinks active" onclick="openTab(event, 'Today')">Today</button>
+      <button class="tablinks" onclick="openTab(event, 'Upcoming')">Upcoming</button>
+      <button class="tablinks" onclick="openTab(event, 'Past')">Past</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="Today" class="tabcontent">
+      <h3>Today's Appointments</h3>
+      <% @today_appointments.each do |appointment| %>
+        <div class="base">
+          <div class="left-container">
+            <div class="username-row">
+              <span><%= appointment.name %></span>
+              <span> Arrival Time:<%= appointment.time %></span>
+              <span> Arrival Date:<%= appointment.date %></span>
+            </div>
+            <div class="special-needs">
+              <%= appointment.special_needs %>
+            </div>
+            <div class="orderables">
+              <% appointment.orderables.each do |orderable| %>
+                <button class="orderable-btn"><%= "#{orderable.product.name} - #{orderable.quantity}" %></button>
+              <% end %>
+            </div>
+          </div>
+          <div class="right-container">
+            <span>Total time: N/A</span>
+            <span><%= appointment.phone %></span>
+            <span><%= appointment.email %></span>
+            <p>
+              Assign to employee:
+              <%= form_with(url: assign_employee_appointment_path(appointment), method: :patch, local: true, html: { onchange: 'this.form.submit()' }) do |form| %>
+                <%= form.collection_select(:employee_id, @employees, :id, :name, { selected: appointment.employee_id, prompt: "Assigned to: #{appointment.employee&.name || 'None'}" }, { onchange: 'this.form.submit()' }) %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div> <!-- Closing tag for "Today" tab content -->
+
+    <div id="Upcoming" class="tabcontent">
+      <h3>Upcoming Appointments</h3>
+      <% @upcoming_appointments.each do |appointment| %>
+        <div class="base">
+          <div class="left-container">
+            <div class="username-row">
+              <span><%= appointment.name %></span>
+              <span> Arrival Time:<%= appointment.time %></span>
+              <span> Arrival Date:<%= appointment.date %></span>
+            </div>
+            <div class="special-needs">
+              <%= appointment.special_needs %>
+            </div>
+            <div class="orderables">
+              <% appointment.orderables.each do |orderable| %>
+                <button class="orderable-btn"><%= "#{orderable.product.name} - #{orderable.quantity}" %></button>
+              <% end %>
+            </div>
+          </div>
+          <div class="right-container">
+            <span>Total time: N/A</span>
+            <span><%= appointment.phone %></span>
+            <span><%= appointment.email %></span>
+            <p>
+              Assign to employee:
+<%= form_with(url: assign_employee_appointment_path(appointment), method: :patch, local: true, html: { onchange: 'this.form.submit()' }) do |form| %>
+
+                <%= form.collection_select(:employee_id, @employees, :id, :name, { selected: appointment.employee_id, prompt: "Assigned to: #{appointment.employee&.name || 'None'}" }, { onchange: 'this.form.submit()' }) %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div> <!-- Closing tag for "Upcoming" tab content -->
+
+    <div id="Past" class="tabcontent">
+      <h3>Past Appointments</h3>
+      <% @past_appointments.each do |appointment| %>
+        <div class="base">
+          <div class="left-container">
+            <div class="username-row">
+              <span><%= appointment.name %></span>
+              <span> Arrival Time:<%= appointment.time %></span>
+              <span> Arrival Date:<%= appointment.date %></span>
+            </div>
+            <div class="special-needs">
+              <%= appointment.special_needs %>
+            </div>
+            <div class="orderables">
+              <% appointment.orderables.each do |orderable| %>
+                <button class="orderable-btn"><%= "#{orderable.product.name} - #{orderable.quantity}" %></button>
+              <% end %>
+            </div>
+          </div>
+          <div class="right-container">
+            <span>Total time: N/A</span>
+            <span><%= appointment.phone %></span>
+            <span><%= appointment.email %></span>
+            <p>
+              Assign to employee:
+              <%= form_with(url: assign_employee_appointment_path(appointment), method: :patch, local: true, html: { onchange: 'this.form.submit()' }) do |form| %>
+                <%= form.collection_select(:employee_id, @employees, :id, :name, { selected: appointment.employee_id, prompt: "Assigned to: #{appointment.employee&.name || 'None'}" }, { onchange: 'this.form.submit()' }) %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div> <!-- Closing tag for "Past" tab content -->
+  </div>
+</div>

@@ -1,0 +1,18 @@
+
+<div id="flex">
+  <%= render 'layouts/navbar' %>
+
+  <div id="right" >
+    <p style="color: green"><%= notice %></p>
+
+    <%= render @about_view %>
+
+    <div>
+      <%= link_to "Edit this about view", edit_about_view_path(@about_view) %> |
+      <%= link_to "Back to about views", about_views_path %>
+      <%= button_to "Destroy this about view", @about_view, method: :delete %>
+    </div>
+
+  </div>
+</div>
+

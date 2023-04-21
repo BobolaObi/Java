@@ -1,0 +1,54 @@
+<div id="flex">
+  <p style="color: green"><%= notice %></p>
+  <%= render 'layouts/navbar' %>
+
+  <div id="right">
+    <h1>Roles</h1>
+    <div id="roles">
+      <% @roles.each do |role| %>
+        <div class="role-row">
+          <div class="role-name"><%= role.name %></div>
+          <div class="role-employees">
+            <% role.employees.each do |employee| %>
+              <%= employee.name %>
+              <% unless employee == role.employees.last %>, <% end %>
+            <% end %>
+          </div>
+          <div class="role-actions">
+            <%= link_to "Show", role %> |
+            <%= link_to "Edit", edit_role_path(role) %> |
+            <%= link_to "Delete", role, method: :delete, data: { confirm: "Are you sure?" } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%= link_to "New Role", new_role_path %>
+  </div>
+</div>
+
+<style>
+    #roles {
+        width: 100%;
+    }
+
+    .role-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid black;
+        padding: 15px 0;
+    }
+
+    .role-name {
+        text-align: left;
+    }
+
+    .role-employees {
+        text-align: center;
+    }
+
+    .role-actions {
+        text-align: right;
+    }
+
+</style>

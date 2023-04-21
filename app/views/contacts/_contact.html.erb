@@ -1,0 +1,83 @@
+<div id="<%= dom_id contact %>" class="contact-container-2">
+  <div class="canvas">
+    <% if contact.image.attached? %>
+      <%= image_tag contact.image, class: "contact-image" %>
+    <% end %>
+
+    <% if contact.email.present? %>
+      <p>
+        <a class="contact-link" href="mailto:<%= contact.email %>" >EMAIL US</a>
+      </p>
+    <% end %>
+
+    <% if contact.number.present? %>
+      <p>
+        <a class="contact-link" href="tel:<%= contact.number %>">CALL NOW</a>
+      </p>
+    <% end %>
+
+  </div>
+</div>
+
+<style>
+    .canvas {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        color: white;
+        padding: 25px 100px;
+        margin: 40px;
+        width: 200px;
+        height: 130px;
+    }
+
+    .contact-image {
+        max-width: 75px;
+        margin: 10px 10px;
+    }
+
+    .contact-container-2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 48;
+    }
+
+    .contact-link {
+        text-decoration: none;
+        color: white;
+    }
+
+    a.contact-link {
+padding: 50px;
+
+    }
+
+    @media only screen and (max-width: 768px) {
+        .canvas {
+            width: 40%;
+            height: auto;
+        }
+
+        .contact-image {
+            max-width: 45px;
+            margin: 10px 10px;
+        }
+        a.contact-link {
+            padding: 20px;
+            font-size: 13px;
+            text-align: center;
+
+        }
+    }
+
+</style>

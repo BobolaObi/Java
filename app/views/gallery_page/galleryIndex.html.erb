@@ -1,0 +1,79 @@
+<div class="gallery-content">
+  <% if @gallery_data_title.any? %>
+    <h2 class="page-header"><%= @gallery_data_title.first %></h2>
+    <br>
+  <% else %>
+    <p >Title</p>
+  <% end %>
+
+  <% if @gallery_data_desc.any? %>
+    <p class="page-header"><%= @gallery_data_desc.first %></p>
+  <% else %>
+    <p >Description</p>
+  <% end %>
+</div>
+
+<div class="gallery-images-container">
+  <% @galleryImages.each do |image| %>
+    <div class="gallery-image">
+      <% if image.image.attached? %>
+        <%= image_tag image.image %>
+      <% else %>
+        <%= " No Images " %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .page-header{
+      width: 70%;
+      margin-left: 45px;
+  }
+    .gallery-content {
+        display: flex ;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        background-color: black;
+        color: white;
+        height: 25vh;
+    }
+
+    .gallery-images-container {
+        margin-top: 110px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 0;
+
+    }
+
+    .gallery-image {
+        flex-basis: calc(33.33% - 10px);
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+    }
+
+    .gallery-image img {
+        width: 350px;
+        height: 350px;
+        object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+        .gallery-image {
+            flex-basis: calc(50% - 10px);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .gallery-image {
+            flex-basis: 100%;
+        }
+    }
+</style>
